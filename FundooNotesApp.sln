@@ -3,13 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33213.308
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FundooNotesApp", "FundooNotesApp\FundooNotesApp.csproj", "{53210674-1F41-4B4A-9544-795253025D5E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FundooNotesApp", "FundooNotesApp\FundooNotesApp.csproj", "{53210674-1F41-4B4A-9544-795253025D5E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RepositoryLayer", "RepositoryLayer\RepositoryLayer.csproj", "{1AA5D050-A2E8-40C0-8EE3-FD51C4756972}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RepositoryLayer", "RepositoryLayer\RepositoryLayer.csproj", "{1AA5D050-A2E8-40C0-8EE3-FD51C4756972}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusinessLayer", "BusinessLayer\BusinessLayer.csproj", "{F1C8993A-FA11-4F25-B901-F2777808B0F1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BusinessLayer", "BusinessLayer\BusinessLayer.csproj", "{F1C8993A-FA11-4F25-B901-F2777808B0F1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModelLayer", "ModelLayer\ModelLayer.csproj", "{94407A2B-CC01-4AD1-9EF3-C2221CC48711}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ModelLayer", "ModelLayer\ModelLayer.csproj", "{94407A2B-CC01-4AD1-9EF3-C2221CC48711}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TicketConsumer", "TicketConsumer\TicketConsumer.csproj", "{AEED0BB8-1207-4277-8317-092BD91C0109}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{94407A2B-CC01-4AD1-9EF3-C2221CC48711}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{94407A2B-CC01-4AD1-9EF3-C2221CC48711}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{94407A2B-CC01-4AD1-9EF3-C2221CC48711}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AEED0BB8-1207-4277-8317-092BD91C0109}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AEED0BB8-1207-4277-8317-092BD91C0109}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AEED0BB8-1207-4277-8317-092BD91C0109}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AEED0BB8-1207-4277-8317-092BD91C0109}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,8 +1,11 @@
 ﻿using BusinessLayer.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using ModelLayer;
 using RepositoryLayer.Entity;
+using System.Linq;
 
 namespace FundooNotesApp.Controllers
 {
@@ -11,10 +14,13 @@ namespace FundooNotesApp.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserBusiness user;
-        public UserController(IUserBusiness user)
+        private readonly ILogger<UserController> logger;
+        public UserController(IUserBusiness user,ILogger<UserController> logger)
         {
             this.user = user;
+            this.logger = logger;
         }
+        //https://localhost:44346/api/User/Register
         [HttpPost]
         [Route("Register")]
         public IActionResult Register(RegisterModel model)
@@ -29,12 +35,19 @@ namespace FundooNotesApp.Controllers
                 return BadRequest(new ResponseModel<UserEntity> {Status=false,Message="registeration failed",});
             }
         }
+        [HttpGet("GetAllUsers")]
+        public IActionResult GetAllUsers()
+        {
+            var result=user.GetAllUsers();
+            return Ok(result);
+        }
         [HttpPost("Login")]
         public IActionResult Login(LoginModel model)
         {
             var loginData = user.Login(model);
             if(loginData != null)
             {
+                logger.LogInformation($"user {model.EmailId} logged in");
                 return Ok(new ResponseModel<string> { Status = true, Message = "login successful",Data=loginData});
             }
             else
@@ -53,6 +66,21 @@ namespace FundooNotesApp.Controllers
             else
             {
                 return BadRequest(new ResponseModel<string> { Status = false, Message = "Mail not sent" });
+            }
+        }
+        [Authorize]
+        [HttpPatch("ResetPassword")]
+        public IActionResult ResetPassword(ResetPassword reset)
+        {
+            var Email = User.Claims.FirstOrDefault(a => a.Type == "EmailId").Value;
+            var forget = user.ResetPassword(reset,Email);
+            if (forget != null)
+            {
+                return Ok(new ResponseModel<string> { Status = true, Message = "Password Reset", Data = forget });
+            }
+            else
+            {
+                return BadRequest(new ResponseModel<string> { Status = false, Message = "Failed" });
             }
         }
     }

@@ -23,6 +23,11 @@ namespace RepositoryLayer.Services
             this.context = context;
             this.configuration = configuration;
         }
+        public List<UserEntity> GetAllUsers()
+        {
+            var result = context.UserTable.ToList();
+            return result;
+        }
         public UserEntity Register(RegisterModel model)
         {
             UserEntity entity= new UserEntity();
@@ -114,6 +119,26 @@ namespace RepositoryLayer.Services
             }catch(Exception ex)
             {
                 throw ex;
+            }
+        }
+        public UserTicket CreateTicketForPassword(string emailId,string token)
+        {
+            var usercheck = context.UserTable.Where(a => a.EmailId == emailId).FirstOrDefault();
+            if(usercheck != null)
+            {
+                UserTicket userTicket = new UserTicket
+                {
+                    FirstName= usercheck.FirstName,
+                    LastName= usercheck.LastName,
+                    EmailId=emailId,
+                    token=token,
+                    CreatedAt= DateTime.Now,
+                };
+                return userTicket;
+            }
+            else
+            {
+                return null;
             }
         }
     }

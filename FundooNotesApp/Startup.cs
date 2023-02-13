@@ -1,5 +1,6 @@
 using BusinessLayer.Interfaces;
 using BusinessLayer.Services;
+using MassTransit;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -39,6 +40,10 @@ namespace FundooNotesApp
             services.AddDbContext<FundooDBContext>(options=> options.UseSqlServer(Configuration["ConnectionStrings:FundooDB"]));
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<IUserBusiness, UserBusiness>();
+            services.AddTransient<INoteBusiness, NoteBusiness>();
+            services.AddTransient<INoteRepository, NoteRepository>();
+            services.AddTransient<ILabelBusiness, LabelBusiness>();
+            services.AddTransient<ILabelRepository, LabelRepository>();
             services.AddSwaggerGen(a =>
             {
                 //a.SwaggerDoc(
@@ -94,6 +99,20 @@ namespace FundooNotesApp
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(this.Configuration["Jwt:SecretKey"])),
                 };
             });
+            services.AddMassTransit(x =>
+            {
+                x.AddBus(provider => Bus.Factory.CreateUsingRabbitMq(config =>
+                {
+                    config.UseHealthCheck(provider);
+                    config.Host(new Uri("rabbitmq://localhost"), h =>
+                    {
+                        h.Username("guest");
+                        h.Password("guest");
+                    });
+                }));
+            });
+            services.AddMassTransitHostedService();
+            services.AddControllers();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -103,8 +122,8 @@ namespace FundooNotesApp
             {
                 app.UseDeveloperExceptionPage();
             }
-            app.UseAuthentication();
-            app.UseAuthorization(); 
+            //app.UseAuthentication();
+            //app.UseAuthorization(); 
             //app.UseDeveloperExceptionPage();
             app.UseHttpsRedirection();
             app.UseSwagger();
@@ -114,7 +133,9 @@ namespace FundooNotesApp
             });
 
             app.UseRouting();
-
+            app.UseAuthentication();
+            app.UseRouting();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

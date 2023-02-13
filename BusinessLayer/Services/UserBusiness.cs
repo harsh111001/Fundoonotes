@@ -19,6 +19,10 @@ namespace BusinessLayer.Services
         {
             return user.Register(model);
         }
+        public List<UserEntity> GetAllUsers()
+        {
+            return user.GetAllUsers();
+        }
         public string Login(LoginModel login)
         {
             return user.Login(login);
@@ -30,6 +34,10 @@ namespace BusinessLayer.Services
         public string ResetPassword(ResetPassword reset, string Email)
         {
             return user.ResetPassword(reset, Email);
+        }
+        public UserTicket CreateTicketForPassword(string emailId, string token)
+        {
+            return user.CreateTicketForPassword(emailId, token);
         }
     }
 }
